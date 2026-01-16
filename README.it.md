@@ -2,8 +2,6 @@
 
 Game launcher desktop per la community DQ con riconoscimento dispositivi enterprise-grade, distribuzione file multi-server e gestione modpack.
 
-![Main Window](docs/screenshots/main-window.png)
-
 ## Stack Tecnologico
 
 **Client Desktop**
@@ -51,9 +49,9 @@ Game launcher desktop per la community DQ con riconoscimento dispositivi enterpr
 │                    Backend (Express)                        │
 ├─────────────────────────────────────────────────────────────┤
 │  Routes              │  Services              │  Middleware │
-│  ├─ /launcher/*      │  ├─ DeviceRecognition  │  ├─ Auth    │
-│  ├─ /admin/*         │  ├─ TelegramBot        │  ├─ RateLimit│
-│  └─ /security/*      │  └─ UploadTracker      │  └─ ErrorH  │
+│  ├─ /launcher/*      │  ├─ DeviceRecognition  │ ├─ Auth     │
+│  ├─ /admin/*         │  ├─ TelegramBot        │ ├─ RateLimit│
+│  └─ /security/*      │  └─ UploadTracker      │ └─ ErrorH   │
 └──────────────────────┴────────────────────────┴─────────────┘
                               │
                               ▼
@@ -119,5 +117,3 @@ Attuale: **3.1.0**
 
 ---
 
-**Sviluppato da:** Vados2343
-**Repository:** DQ Launcher
