@@ -8,49 +8,49 @@ DQ Launcher è un'applicazione full-stack a tre livelli progettata per distribuz
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Client Desktop                           │
 │                    (WPF .NET 8 / Windows)                       │
-│  • Autenticazione via Telegram OAuth                           │
-│  • Fingerprinting hardware (SHA256 scoring pesato)             │
-│  • Gestione modpack (installa/switch/aggiorna)                 │
-│  • Orchestrazione download multi-server                        │
-│  • Auto-updater con supporto rollback                          │
-│  • Rilevamento e configurazione VPN                            │
+│  • Autenticazione via Telegram OAuth                            │
+│  • Fingerprinting hardware (SHA256 scoring pesato)              │
+│  • Gestione modpack (installa/switch/aggiorna)                  │
+│  • Orchestrazione download multi-server                         │
+│  • Auto-updater con supporto rollback                           │
+│  • Rilevamento e configurazione VPN                             │
 └──────────────────────────────┬──────────────────────────────────┘
                                │ HTTPS + JWT
                                ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                      Server Backend API                         │
 │                (Node.js/Express/TypeScript)                     │
-│  • Integrazione OAuth Telegram (webhook)                       │
-│  • Algoritmo riconoscimento dispositivi (scoring pesato)       │
-│  • Matching fingerprint hardware & tracking migrazioni         │
-│  • Gestione distribuzione file multi-server                    │
-│  • API admin panel (user/device/modpack)                       │
-│  • Progresso upload real-time (WebSocket)                      │
-│  • Audit logging & rilevamento attività sospette               │
-│  • Rate limiting & middleware sicurezza                        │
+│  • Integrazione OAuth Telegram (webhook)                        │
+│  • Algoritmo riconoscimento dispositivi (scoring pesato)        │
+│  • Matching fingerprint hardware & tracking migrazioni          │
+│  • Gestione distribuzione file multi-server                     │
+│  • API admin panel (user/device/modpack)                        │
+│  • Progresso upload real-time (WebSocket)                       │
+│  • Audit logging & rilevamento attività sospette                │
+│  • Rate limiting & middleware sicurezza                         │
 └──────────────────────────────┬──────────────────────────────────┘
                                │ PostgreSQL
                                ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                   Database (PostgreSQL)                         │
-│  • Users, Sessions, Audit Logs                                 │
-│  • DeviceFingerprints (componenti hardware hashati)            │
-│  • UserDevices (many-to-many + metadata)                       │
-│  • DeviceMigrations (cronologia cambio + confidence)           │
-│  • SharedHardwareComponents (rilevamento frodi)                │
-│  • Modpacks, News, Error Reports                               │
+│  • Users, Sessions, Audit Logs                                  │
+│  • DeviceFingerprints (componenti hardware hashati)             │
+│  • UserDevices (many-to-many + metadata)                        │
+│  • DeviceMigrations (cronologia cambio + confidence)            │
+│  • SharedHardwareComponents (rilevamento frodi)                 │
+│  • Modpacks, News, Error Reports                                │
 └─────────────────────────────────────────────────────────────────┘
                                ▲
                                │ HTTPS
 ┌──────────────────────────────┴──────────────────────────────────┐
 │                    Pannello Admin Frontend                      │
 │                  (React 18 / Vite / TypeScript)                 │
-│  • Gestione utenti & tracking dispositivi                      │
-│  • Monitoraggio real-time (dashboard)                          │
-│  • Upload & gestione modpack                                   │
-│  • Allerte sicurezza & blocco dispositivi                      │
-│  • Viewer audit log con filtri                                 │
-│  • Analisi report errori                                       │
+│  • Gestione utenti & tracking dispositivi                       │
+│  • Monitoraggio real-time (dashboard)                           │
+│  • Upload & gestione modpack                                    │
+│  • Allerte sicurezza & blocco dispositivi                       │
+│  • Viewer audit log con filtri                                  │
+│  • Analisi report errori                                        │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -182,14 +182,14 @@ LauncherApiService.InitiateAuthAsync()
 ```
 Scoring Pesato (max 100):
 ┌──────────────────────────────────────────┐
-│ Componente      │ Peso │ Affidabilità  │
-├─────────────────┼──────┼───────────────┤
-│ TPM             │ 40%  │ Massima       │
-│ System UUID     │ 25%  │ Molto Alta    │
-│ MAC Address     │ 15%  │ Media*        │
-│ Disk Serial     │ 10%  │ Media         │
-│ CPU ID          │ 5%   │ Bassa**       │
-│ GPU ID          │ 5%   │ Bassa         │
+│ Componente      │ Peso │ Affidabilità    │
+├─────────────────┼──────┼─────────────────┤
+│ TPM             │ 40%  │ Massima         │
+│ System UUID     │ 25%  │ Molto Alta      │
+│ MAC Address     │ 15%  │ Media*          │
+│ Disk Serial     │ 10%  │ Media           │
+│ CPU ID          │ 5%   │ Bassa**         │
+│ GPU ID          │ 5%   │ Bassa           │
 └──────────────────────────────────────────┘
 
 *MAC: Può essere virtualizzato/spoofato facilmente
@@ -321,46 +321,46 @@ Tabelle principali:
 ## Architettura Deployment
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│            Ambiente Produzione                              │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│ ┌──────────────────┐  ┌──────────────────┐                │
-│ │ Bot Telegram     │  │ Frontend (React) │                │
-│ │ Webhooks         │  │ Vite SPA         │                │
-│ │ (tg.me/dq_bot)   │  │ TailwindCSS      │                │
-│ └────────┬─────────┘  └────────┬─────────┘                │
-│          │                     │                          │
-│          └─────────────────────┼──────────────────────────│
-│                                ▼                          │
-│                  ┌──────────────────────────┐             │
-│                  │  Express Backend         │             │
-│                  │  • /launcher/* route     │             │
-│                  │  • /admin/* route        │             │
-│                  │  • /download/* route     │             │
-│                  │  • WebSocket (upload)    │             │
-│                  │  • JWT middleware        │             │
-│                  │  • Rate limiting         │             │
-│                  └────────┬──────────────────┘            │
-│                           │                              │
-│  ┌────────────────────────┼────────────────────────┐    │
-│  │                        ▼                        │    │
+┌───────────────────────────────────────────────────────┐
+│            Ambiente Produzione                        │
+├───────────────────────────────────────────────────────┤
+│                                                       │
+│ ┌──────────────────┐  ┌──────────────────┐            │
+│ │ Bot Telegram     │  │ Frontend (React) │            │
+│ │ Webhooks         │  │ Vite SPA         │            │
+│ │ (tg.me/dq_bot)   │  │ TailwindCSS      │            │
+│ └────────┬─────────┘  └────────┬─────────┘            │
+│          │                     │                      │
+│          └─────────────────────┼──────────────────────│
+│                                ▼                      │
+│                  ┌──────────────────────────┐         │
+│                  │  Express Backend         │         │
+│                  │  • /launcher/* route     │         │
+│                  │  • /admin/* route        │         │
+│                  │  • /download/* route     │         │
+│                  │  • WebSocket (upload)    │         │
+│                  │  • JWT middleware        │         │
+│                  │  • Rate limiting         │         │
+│                  └────────┬─────────────────┘         │
+│                           │                           │
+│  ┌────────────────────────┼──────────────────────┐    │
+│  │                        ▼                      │    │
 │  │     ┌──────────────────────────────────┐      │    │
 │  │     │  Database PostgreSQL             │      │    │
 │  │     │  • Users, Devices, Sessions      │      │    │
 │  │     │  • DeviceFingerprints (indexed)  │      │    │
-│  │     │  • Audit Logs (retention: 90d)  │      │    │
+│  │     │  • Audit Logs (retention: 90d)  │       │    │
 │  │     │  • Modpacks, News                │      │    │
 │  │     │  • Error Reports                 │      │    │
 │  │     └──────────────────────────────────┘      │    │
-│  │                                              │    │
+│  │                                               │    │
 │  │     ┌──────────────────────────────────┐      │    │
 │  │     │  Redis (Sessions + Cache)        │      │    │
 │  │     │  • Auth code (TTL: 10min)        │      │    │
 │  │     │  • User session (TTL: 24h)       │      │    │
 │  │     │  • Contatori rate limit          │      │    │
 │  │     └──────────────────────────────────┘      │    │
-│  │                                              │    │
+│  │                                               │    │
 │  │     ┌──────────────────────────────────┐      │    │
 │  │     │  File Storage (S3-compatible)    │      │    │
 │  │     │  • Binari modpack                │      │    │
@@ -368,10 +368,10 @@ Tabelle principali:
 │  │     │  • Eseguibili launcher           │      │    │
 │  │     │  • ~500GB per regione            │      │    │
 │  │     └──────────────────────────────────┘      │    │
-│  │                                              │    │
-│  └──────────────────────────────────────────────┘   │
-│                                                     │
-└─────────────────────────────────────────────────────┘
+│  │                                               │    │
+│  └───────────────────────────────────────────────┘    │
+│                                                       │
+└───────────────────────────────────────────────────────┘
 ```
 
 **Dettagli Infrastruttura:**
@@ -439,3 +439,4 @@ Vedi documentazione dettagliata:
 - **[backend.it.md](backend.it.md)** — Route Express & servizi
 - **[frontend.it.md](frontend.it.md)** — Componenti React
 - **[telegram.it.md](telegram.it.md)** — Dettagli flusso OAuth
+
