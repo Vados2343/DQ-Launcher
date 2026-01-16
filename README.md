@@ -1,8 +1,6 @@
 # DQ Launcher
 
-Desktop game launcher for DQ Community with enterprise-grade device recognition, multi-server file distribution, and modpack management.
-
-![Main Window](docs/screenshots/main-window.png)
+Desktop game launcher for Quper Simulator with enterprise-grade device recognition, multi-server file distribution, and modpack management.
 
 ## Tech Stack
 
@@ -51,9 +49,9 @@ Desktop game launcher for DQ Community with enterprise-grade device recognition,
 │                    Backend (Express)                        │
 ├─────────────────────────────────────────────────────────────┤
 │  Routes              │  Services              │  Middleware │
-│  ├─ /launcher/*      │  ├─ DeviceRecognition  │  ├─ Auth    │
-│  ├─ /admin/*         │  ├─ TelegramBot        │  ├─ RateLimit│
-│  └─ /security/*      │  └─ UploadTracker      │  └─ ErrorH  │
+│  ├─ /launcher/*      │  ├─ DeviceRecognition  │ ├─ Auth     │
+│  ├─ /admin/*         │  ├─ TelegramBot        │ ├─ RateLimit│
+│  └─ /security/*      │  └─ UploadTracker      │ └─ ErrorH   │
 └──────────────────────┴────────────────────────┴─────────────┘
                               │
                               ▼
@@ -119,5 +117,3 @@ Current: **3.1.0**
 
 ---
 
-**Developed by:** Vados2343
-**Repository:** DQ Launcher
